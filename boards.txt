@@ -1,0 +1,143 @@
+menu.upload_method=Upload method
+menu.dbg=Debug symbols and core logs
+menu.usb=Usb method
+
+########################################################################################################
+#Artery Tek AT32F403A AT_START board
+
+#ArteryTekAT32f403a.menu.usb.none=None
+ArteryTekAT32f403a.menu.usb.CDC=CDC
+ArteryTekAT32f403a.menu.usb.CDC.build.enable_usb=-DUSBD_USE_CDC
+ArteryTekAT32f403a.menu.usb.mouse=Mouse
+ArteryTekAT32f403a.menu.usb.mouse.build.enable_usb=-DUSBD_USE_MOUSE
+ArteryTekAT32f403a.menu.usb.keyboard=Keyboard
+ArteryTekAT32f403a.menu.usb.keyboard.build.enable_usb=-DUSBD_USE_KEYBOARD
+
+ArteryTekAT32f403a.name=ArteryTek AT_START_F403A Board
+ArteryTekAT32f403a.build.mcu=cortex-m4
+ArteryTekAT32f403a.build.board=AT_START_F403A
+ArteryTekAT32f403a.build.series=AT32F403A
+ArteryTekAT32f403a.build.vect_flags=-DUSER_ADDR_ROM=0x08000000
+ArteryTekAT32f403a.build.core=arduino
+ArteryTekAT32f403a.build.fpu=-mfpu=fpv4-sp-d16
+ArteryTekAT32f403a.build.float-abi=-mfloat-abi=hard
+ArteryTekAT32f403a.build.flags.optimize=-Os
+ArteryTekAT32f403a.build.flags.ldspecs=--specs=nano.specs -u _printf_float
+ArteryTekAT32f403a.build.flags.debug=-DNDEBUG
+ArteryTekAT32f403a.build.flash_offset=0
+ArteryTekAT32f403a.build.extra_flags=-DAT32F403ACGU7 -USE_STDPERIPH_DRIVER {build.enable_usb}
+ArteryTekAT32f403a.build.variant=AT32F403A
+ArteryTekAT32f403a.build.ldscript=linker_scripts/AT32F403AxG_FLASH.ld
+ArteryTekAT32f403a.upload.openocd_script=target/at32f403axx.cfg
+ArteryTekAT32f403a.openocd.target=at32f403axx
+ArteryTekAT32f403a.debug.svd_file={build.variant.path}/svd/AT32F403Axx_v2.svd
+
+ArteryTekAT32f403a.menu.upload_method.swdMethod=Artery ATLINK upload
+ArteryTekAT32f403a.menu.upload_method.swdMethod.upload.protocol=atlink
+ArteryTekAT32f403a.menu.upload_method.swdMethod.upload.tool=atlink_upload
+ArteryTekAT32f403a.menu.upload_method.swdMethod.upload.maximum_size=1048576
+ArteryTekAT32f403a.menu.upload_method.swdMethod.upload.maximum_data_size=98304
+
+ArteryTekAT32f403a.menu.upload_method.USBDFUMethod=Artery ISP DFU upload
+ArteryTekAT32f403a.menu.upload_method.USBDFUMethod.upload.protocol=Artery_ISP
+ArteryTekAT32f403a.menu.upload_method.USBDFUMethod.upload.tool=Artery_ISP_Console
+ArteryTekAT32f403a.menu.upload_method.USBDFUMethod.upload.maximum_size=1048576
+ArteryTekAT32f403a.menu.upload_method.USBDFUMethod.upload.maximum_data_size=98304
+
+ArteryTekAT32f403a.menu.dbg.none=None
+ArteryTekAT32f403a.menu.dbg.enable_sym=Symbols Enabled (-g)
+ArteryTekAT32f403a.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+ArteryTekAT32f403a.menu.dbg.enable_log=Core logs Enabled
+ArteryTekAT32f403a.menu.dbg.enable_log.build.flags.debug=
+ArteryTekAT32f403a.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+ArteryTekAT32f403a.menu.dbg.enable_all.build.flags.debug=-g
+
+
+
+########################################################################################################
+#Artery Tek AT32F407 AT_START board
+
+#ArteryTekAT32f407.menu.usb.none=None
+ArteryTekAT32f407.menu.usb.CDC=CDC
+ArteryTekAT32f407.menu.usb.CDC.build.enable_usb=-DUSBD_USE_CDC
+ArteryTekAT32f407.menu.usb.mouse=Mouse
+ArteryTekAT32f407.menu.usb.mouse.build.enable_usb=-DUSBD_USE_MOUSE
+ArteryTekAT32f407.menu.usb.keyboard=Keyboard
+ArteryTekAT32f407.menu.usb.keyboard.build.enable_usb=-DUSBD_USE_KEYBOARD
+
+ArteryTekAT32f407.name=ArteryTek AT_START_F407 Board
+ArteryTekAT32f407.build.mcu=cortex-m4
+ArteryTekAT32f407.build.board=AT_START_F407
+ArteryTekAT32f407.build.series=AT32F407
+ArteryTekAT32f407.build.vect_flags=-DUSER_ADDR_ROM=0x08000000
+ArteryTekAT32f407.build.core=arduino
+ArteryTekAT32f407.build.fpu=-mfpu=fpv4-sp-d16
+ArteryTekAT32f407.build.float-abi=-mfloat-abi=hard
+ArteryTekAT32f407.build.flags.optimize=-Os
+ArteryTekAT32f407.build.flags.ldspecs=--specs=nano.specs -u _printf_float
+ArteryTekAT32f407.build.flags.debug=-DNDEBUG
+ArteryTekAT32f407.build.flash_offset=0
+ArteryTekAT32f407.build.extra_flags=-DAT32F407VGT7 -USE_STDPERIPH_DRIVER {build.enable_usb}
+ArteryTekAT32f407.build.variant=AT32F407
+ArteryTekAT32f407.build.ldscript=linker_scripts/AT32F407xG_FLASH.ld
+ArteryTekAT32f407.upload.openocd_script=target/at32f407xx.cfg
+ArteryTekAT32f407.openocd.target=at32f407xx
+ArteryTekAT32f407.debug.svd_file={build.variant.path}/svd/AT32F407xx_v2.svd
+
+ArteryTekAT32f407.menu.upload_method.swdMethod=Artery ATLINK upload
+ArteryTekAT32f407.menu.upload_method.swdMethod.upload.protocol=atlink
+ArteryTekAT32f407.menu.upload_method.swdMethod.upload.tool=atlink_upload
+ArteryTekAT32f407.menu.upload_method.swdMethod.upload.maximum_size=1048576
+ArteryTekAT32f407.menu.upload_method.swdMethod.upload.maximum_data_size=98304
+
+ArteryTekAT32f407.menu.upload_method.USBDFUMethod=Artery ISP DFU upload
+ArteryTekAT32f407.menu.upload_method.USBDFUMethod.upload.protocol=Artery_ISP
+ArteryTekAT32f407.menu.upload_method.USBDFUMethod.upload.tool=Artery_ISP_Console
+ArteryTekAT32f407.menu.upload_method.USBDFUMethod.upload.maximum_size=1048576
+ArteryTekAT32f407.menu.upload_method.USBDFUMethod.upload.maximum_data_size=98304
+
+ArteryTekAT32f407.menu.dbg.none=None
+ArteryTekAT32f407.menu.dbg.enable_sym=Symbols Enabled (-g)
+ArteryTekAT32f407.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+ArteryTekAT32f407.menu.dbg.enable_log=Core logs Enabled
+ArteryTekAT32f407.menu.dbg.enable_log.build.flags.debug=
+ArteryTekAT32f407.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+ArteryTekAT32f407.menu.dbg.enable_all.build.flags.debug=-g
+
+
+########################################################################################################
+#Artery Tek AT32L021 AT_START board
+
+
+ArteryTekAT32l021.name=ArteryTek AT_START_L021 Board
+ArteryTekAT32l021.build.mcu=cortex-m0plus
+ArteryTekAT32l021.build.board=AT_START_L021
+ArteryTekAT32l021.build.series=AT32L021
+ArteryTekAT32l021.build.vect_flags=-DUSER_ADDR_ROM=0x08000000
+ArteryTekAT32l021.build.core=arduino
+ArteryTekAT32l021.build.fpu=-mfpu=fpv4-sp-d16
+ArteryTekAT32l021.build.float-abi=-mfloat-abi=soft
+ArteryTekAT32l021.build.flags.optimize=-Os
+ArteryTekAT32l021.build.flags.ldspecs=--specs=nano.specs -u _printf_float
+ArteryTekAT32l021.build.flags.debug=-DNDEBUG
+ArteryTekAT32l021.build.flash_offset=0
+ArteryTekAT32l021.build.extra_flags=-DAT32L021C8T7 -USE_STDPERIPH_DRIVER
+ArteryTekAT32l021.build.variant=AT32L021
+ArteryTekAT32l021.build.ldscript=linker_scripts/AT32L021x8_FLASH.ld
+ArteryTekAT32l021.upload.openocd_script=target/at32l021xx.cfg
+ArteryTekAT32l021.openocd.target=at32l021xx
+ArteryTekAT32l021.debug.svd_file={build.variant.path}/svd/AT32L021xx_v2.svd
+
+ArteryTekAT32l021.menu.upload_method.swdMethod=Artery ATLINK upload
+ArteryTekAT32l021.menu.upload_method.swdMethod.upload.protocol=atlink
+ArteryTekAT32l021.menu.upload_method.swdMethod.upload.tool=atlink_upload
+ArteryTekAT32l021.menu.upload_method.swdMethod.upload.maximum_size=77056
+ArteryTekAT32l021.menu.upload_method.swdMethod.upload.maximum_data_size=9216
+
+ArteryTekAT32l021.menu.dbg.none=None
+ArteryTekAT32l021.menu.dbg.enable_sym=Symbols Enabled (-g)
+ArteryTekAT32l021.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+ArteryTekAT32l021.menu.dbg.enable_log=Core logs Enabled
+ArteryTekAT32l021.menu.dbg.enable_log.build.flags.debug=
+ArteryTekAT32l021.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+ArteryTekAT32l021.menu.dbg.enable_all.build.flags.debug=-g

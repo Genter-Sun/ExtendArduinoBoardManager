@@ -1,0 +1,147 @@
+##==============================================##
+name=ArteryTek Board
+version=1.0.0
+##==============================================##
+
+####AT32 compile variables
+
+##===============================================##
+## In there,set the include path
+
+
+bsp_dir={build.variant.path}/{build.series}_BSP_V2
+builtin_library_dir={build.core.path}/../../libraries
+#bsp_dir={build.core.path}/{build.series}_BSP_V2
+
+compiler.at.extra_include="-I{build.system.path}/Drivers/CMSIS/Include/{build.series}" "-I{build.system.path}/{build.series}" "-I{build.variant.path}/libcore" "-I{build.variant.path}/libcore/config" "-I{build.variant.path}/libcore/usb/usbd_class/cdc" "-I{build.variant.path}/libcore/usb/usbd_drivers" "-I{bsp_dir}" "-I{build.variant.path}/libcore/usb/usbd_class/mouse" "-I{build.variant.path}/libcore/usb/usbd_class/keyboard"
+
+compiler.warning_flags=-w
+compiler.warning_flags.none=-w
+compiler.warning_flags.default=
+compiler.warning_flags.more=-Wall
+compiler.warning_flags.all=-Wall -Wextra
+
+## compiler variables
+compiler.path={runtime.tools.xpack-arm-none-eabi-gcc.path}/bin/
+
+##All the command
+compiler.S.cmd=arm-none-eabi-gcc
+compiler.c.cmd=arm-none-eabi-gcc
+compiler.cpp.cmd=arm-none-eabi-g++
+compiler.ar.cmd=arm-none-eabi-gcc-ar
+compiler.c.elf.cmd=arm-none-eabi-gcc
+compiler.objcopy.cmd=arm-none-eabi-objcopy
+compiler.elf2hex.cmd=arm-none-eabi-objcopy
+compiler.libraries.ldflags=
+
+##Set the compiler flags
+compiler.extra_flags=-mcpu={build.mcu} {build.fpu} {build.float-abi} {build.extra_flags} -mthumb
+
+compiler.S.flags={compiler.extra_flags} -c -x assembler-with-cpp {compiler.at.extra_include}
+
+compiler.c.flags={compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections --param max-inline-insns-single=500 -MMD {compiler.at.extra_include}
+
+compiler.cpp.flags={compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std={compiler.cpp.std} -ffunction-sections -fdata-sections -fno-threadsafe-statics --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -fno-use-cxa-atexit -MMD {compiler.at.extra_include}
+
+compiler.ar.flags=rcs
+
+compiler.c.elf.flags=-mcpu={build.mcu} {build.fpu} {build.float-abi} -mthumb {build.flags.optimize} {build.flags.debug} {build.flags.ldspecs} -Wl,--defsym=LD_FLASH_OFFSET={build.flash_offset} -Wl,--defsym=LD_MAX_SIZE={upload.maximum_size} -Wl,--defsym=LD_MAX_DATA_SIZE={upload.maximum_data_size} -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all -Wl,--warn-common
+
+compiler.objcopy.eep.flags=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0
+
+compiler.elf2bin.flags=-O binary
+compiler.elf2hex.flags=-O ihex
+
+compiler.ldflags=
+compiler.size.cmd=arm-none-eabi-size
+compiler.define=-DARDUINO=
+
+# These can be overridden in boards.txt
+build.at_extra_flags=
+build.bootloader_flags=
+build.variant_h=
+
+# These can be overridden in platform.local.txt
+compiler.c.at_extra_flags=
+compiler.c.extra_flags=
+compiler.c.elf.extra_flags=
+compiler.cpp.extra_flags=
+compiler.cpp.std=gnu++14
+compiler.S.at_extra_flags=
+compiler.S.extra_flags=
+compiler.ar.extra_flags=
+compiler.elf2bin.extra_flags=
+compiler.elf2hex.extra_flags=
+
+
+# Defaults config
+build.fpu=
+build.float-abi=
+build.flags.optimize=-Os
+build.flags.debug=-DNDEBUG
+build.flags.ldspecs=--specs=nano.specs
+build.flash_offset=0
+
+
+##===============================================##
+
+recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} {compiler.S.at_extra_flags} {compiler.S.extra_flags} {build.at_extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} {compiler.c.extra_flags} {build.at_extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {compiler.cpp.extra_flags} {build.at_extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+
+recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
+
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} "-Wl,--default-script={build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.c.elf.extra_flags} {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" "-L{build.path}" -Wl,--start-group {object_files} {compiler.libraries.ldflags} "{archive_file_path}" -lc -Wl,--end-group -lm -lgcc -lstdc++
+
+## Create output (.bin file)
+recipe.objcopy.bin.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+
+## Create output (.hex file)
+recipe.objcopy.hex.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.hex"
+
+build.preferred_out_format=bin
+
+## Save binary
+recipe.output.tmp_file={build.project_name}.{build.preferred_out_format}
+recipe.output.save_file={build.project_name}.{build.board}.{build.preferred_out_format}
+
+
+## Compute size
+recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
+recipe.size.regex=^(?:\.text|\.data|\.rodata)\s+([0-9]+).*
+recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+([0-9]+).*
+recipe.size.regex.eeprom=^(?:\.eeprom)\s+([0-9]+).*
+
+# Uploader tools
+# -------------------
+
+tools.atlink_upload.cmd=openocd
+tools.atlink_upload.path={runtime.tools.Artery_OpenOCD.path}/bin
+
+tools.atlink_upload.upload.params.verbose=-d
+tools.atlink_upload.upload.params.quiet=
+tools.atlink_upload.upload.pattern="{path}/{cmd}" -s "{path}/scripts" -f interface/atlink_dap_v2.cfg -f {upload.openocd_script} -c "program {{build.path}/{build.project_name}.hex} verify reset; shutdown"
+
+tools.Artery_ISP_Console.cmd=DFU_download.sh
+tools.Artery_ISP_Console.cmd.windows=artery_tek_arduino_download_tool.bat
+tools.Artery_ISP_Console.path={runtime.tools.Artery_ISP_Console.path}
+
+tools.Artery_ISP_Console.upload.params.verbose=-d
+tools.Artery_ISP_Console.upload.params.quiet=
+tools.Artery_ISP_Console.upload.pattern="{path}/{cmd}" "{build.path}/{build.project_name}.hex"
+
+# Debugger configuration (general options)
+debug.executable={build.path}/{build.project_name}.elf
+debug.toolchain=gcc
+debug.toolchain.path={runtime.tools.xpack-arm-none-eabi-gcc.path}/bin
+debug.toolchain.prefix=arm-none-eabi-
+debug.server=openocd
+debug.server.openocd.path={runtime.tools.Artery_OpenOCD.path}/bin/openocd
+debug.server.openocd.scripts_dir={runtime.tools.Artery_OpenOCD.path}/scripts
+
+debug.server.openocd.scripts.0={runtime.tools.Artery_OpenOCD.path}/scripts/interface/atlink_dap_v2.cfg
+debug.server.openocd.scripts.1={runtime.tools.Artery_OpenOCD.path}/openocd/scripts/target/swj-dp.tcl
+debug.server.openocd.scripts.2={runtime.tools.Artery_OpenOCD.path}/openocd/scripts/mem_helper.tcl
+debug.server.openocd.scripts.3={runtime.tools.Artery_OpenOCD.path}/openocd/scripts/target/{openocd.target}.cfg
